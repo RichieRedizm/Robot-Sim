@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react'
-import { SET_LOADING } from '../types'
+import { MOVE_ROBOT, SET_LOADING } from '../types'
 import SimContext from './simContext'
 import SimReducer from './simReducer'
 
@@ -12,10 +12,12 @@ const SimState = (props) => {
       y: 0,
     },
     commands: ['PLACE', 'MOVE', 'LEFT', 'RIGHT', 'REPORT'],
+    directions: ['north', 'south', 'east', 'west'],
     facing: '',
     loading: false,
   }
   const [state, dispatch] = useReducer(SimReducer, initialState)
+  console.log('SimState state', state)
 
   const handleCommand = (command) => {
     // set state loading
@@ -24,7 +26,6 @@ const SimState = (props) => {
 
     if (isCommandValid(cmd)) {
       processCommand(cmd)
-      //   console.log('command is valid: ', cmd)
     } else {
       // handle error alert
       console.log('command not valid: ', cmd)
@@ -34,19 +35,42 @@ const SimState = (props) => {
   // command validation
   const isCommandValid = (command) => state.commands.includes(command)
 
-  // filter comnands
+  // filter commands
   const filterCommand = (command) => {
     const cmd = command.split(' ')
     if (cmd[0] === 'PLACE') {
       // check for additional placement coordinates and facing information
       if (cmd.length > 1) {
-        // console.log('PLACE yes - cmd: ', cmd)
-        const placement = cmd[1].split(',')
-        console.log('placement: ', placement)
-        return cmd[0]
+        const info = cmd[1].split(',')
+        if (info.length !== 3) {
+          // handle error alert - we require 3 items of placement information
+          console.log(
+            'we require 3 pieces of info for using PLACE command: X,Y,F',
+            cmd
+          )
+          return false
+        } else {
+          const position = { x: info[0], y: info[1] }
+          if (state.directions.includes(info[2])) {
+            const facing = info[2]
+            dispatch({ type: MOVE_ROBOT, payload: { position, facing } })
+            console.log('placement position: ', position)
+            return cmd[0]
+          } else {
+            // handle error alert
+            console.log(
+              `${info[2]} is not a valid direction - please enter north, south, east or west`,
+              cmd
+            )
+            return false
+          }
+        }
       } else {
-        // handle error alert
-        console.log('no additional information for PLACE command: ', cmd)
+        console.log(
+          'we require 3 pieces of info for using PLACE command: X,Y,F',
+          cmd
+        )
+        return false
       }
     } else {
       return command
@@ -57,6 +81,7 @@ const SimState = (props) => {
   const processCommand = (command) => {
     switch (command) {
       case 'PLACE':
+        // this is handled by filterCommand()
         break
       case 'MOVE':
         break

@@ -26,9 +26,7 @@ const Form = () => {
   return (
     <Fragment>
       <header>
-        <title>
-          <h2>Enter your command</h2>
-        </title>
+        <h2>Type your command and press enter</h2>
       </header>
       <form className='form' onKeyDown={(e) => handleOnKeyDown(e)}>
         <input
