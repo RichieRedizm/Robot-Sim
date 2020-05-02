@@ -3,7 +3,7 @@ import SimContext from '../../context/sim/simContext'
 
 const Form = () => {
   const simContext = useContext(SimContext)
-  const { processCommand } = simContext
+  const { handleCommand } = simContext
   const [command, setCommand] = useState('')
 
   // handles key characters entered to input and sets as state
@@ -12,15 +12,15 @@ const Form = () => {
   // handles key down events.
   const handleOnKeyDown = (e) => {
     if (e.keyCode == 13) {
-      // If key pressed is 'enter' call processCommand function
+      // If key pressed is 'enter' call handleCommand function
       e.preventDefault()
-      processCommand(e.target.value)
+      handleCommand(e.target.value)
     }
   }
 
-  // handles leaving the input field and calls processCommand function
+  // handles leaving the input field and calls handleCommand function
   const handleOnBlur = (e) => {
-    processCommand(e.target.value)
+    handleCommand(e.target.value)
   }
 
   return (
