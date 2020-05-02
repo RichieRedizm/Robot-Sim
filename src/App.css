@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+/* form input styling  */
+input[type='textarea'] {
+  padding: 10px;
+  font-size: 1.1em;
+  width: 20vw;
+}
