@@ -4,8 +4,6 @@ import SimContext from './simContext'
 import SimReducer from './simReducer'
 
 const SimState = (props) => {
-  // position x,y coordinates
-  // facing north, south, east, west
   const initialState = {
     position: {
       x: 0,
@@ -19,6 +17,9 @@ const SimState = (props) => {
   const [state, dispatch] = useReducer(SimReducer, initialState)
   console.log('SimState state', state)
 
+  /** initial handler for command validation
+   * @param {String} command - String from textarea input
+   */
   const handleCommand = (command) => {
     // set state loading
     setLoading()
@@ -35,7 +36,11 @@ const SimState = (props) => {
   // command validation
   const isCommandValid = (command) => state.commands.includes(command)
 
-  // filter commands
+  /** filter commands
+   * @param {String} command - String from textarea input
+   * @return {String} Filtered single string command
+   * TODO fix tripple nesting if statement (time permitting)
+   */
   const filterCommand = (command) => {
     const cmd = command.split(' ')
     if (cmd[0] === 'PLACE') {
@@ -50,11 +55,11 @@ const SimState = (props) => {
           )
           return false
         } else {
-          const position = { x: info[0], y: info[1] }
+          // update state with position and facing info
+          const position = { x: parseInt(info[0]), y: parseInt(info[1]) }
           if (state.directions.includes(info[2])) {
             const facing = info[2]
             dispatch({ type: MOVE_ROBOT, payload: { position, facing } })
-            console.log('placement position: ', position)
             return cmd[0]
           } else {
             // handle error alert
@@ -84,15 +89,48 @@ const SimState = (props) => {
         // this is handled by filterCommand()
         break
       case 'MOVE':
+        // check the facing direction to calc position
+        handleMove()
         break
       case 'LEFT':
-        break
       case 'RIGHT':
+        // update the facing direction
+        handleFacing(command)
         break
       case 'REPORT':
         break
+      default:
+        return false
     }
   }
+
+  //  process valid commands
+  const handleMove = () => {
+    let px = state.position.x
+    let py = state.position.y
+    switch (state.facing) {
+      case 'north':
+        px++
+        break
+      case 'south':
+        --px
+        break
+      case 'east':
+        py++
+        break
+      case 'west':
+        --py
+        break
+      default:
+        return false
+    }
+    const position = { x: px, y: py }
+    console.log('MOVE position', position)
+    dispatch({ type: MOVE_ROBOT, payload: { position, facing: state.facing } })
+  }
+
+  //  process valid commands
+  const handleFacing = (command) => {}
 
   // set loading
   const setLoading = () => dispatch({ type: SET_LOADING })
@@ -100,6 +138,7 @@ const SimState = (props) => {
   return (
     <SimContext.Provider
       value={{
+        position: state.position,
         loading: state.loading,
         handleCommand,
         processCommand,

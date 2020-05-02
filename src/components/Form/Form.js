@@ -18,11 +18,6 @@ const Form = () => {
     }
   }
 
-  // handles leaving the input field and calls handleCommand function
-  const handleOnBlur = (e) => {
-    handleCommand(e.target.value)
-  }
-
   return (
     <Fragment>
       <header>
@@ -34,7 +29,6 @@ const Form = () => {
           value={command}
           placeholder='Enter Command Here....'
           onChange={(e) => handleOnChange(e)}
-          onBlur={(e) => handleOnBlur(e)}
         />
       </form>
     </Fragment>
