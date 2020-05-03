@@ -4,49 +4,33 @@ import SingleUnit from './SingleUnit'
 import './Table.css'
 
 const Table = () => {
+  const [tableUnits, setTableUnits] = useState([])
   const [target, setTarget] = useState('')
   const simContext = useContext(SimContext)
   const { position, robotClass } = simContext
+
+  useEffect(() => {
+    let units = []
+    for (let x = 4; x >= 0; --x) {
+      for (let y = 0; y < 5; y++) {
+        units.push(`x${x}y${y}`)
+      }
+    }
+    setTableUnits(units)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     setTarget(`x${position.x}y${position.y}`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [position])
 
-  // TODO - generate this array (time permitting)
-  const units = [
-    'x4y0',
-    'x4y1',
-    'x4y2',
-    'x4y3',
-    'x4y4',
-    'x3y0',
-    'x3y1',
-    'x3y2',
-    'x3y3',
-    'x3y4',
-    'x2y0',
-    'x2y1',
-    'x2y2',
-    'x2y3',
-    'x2y4',
-    'x1y0',
-    'x1y1',
-    'x1y2',
-    'x1y3',
-    'x1y4',
-    'x0y0',
-    'x0y1',
-    'x0y2',
-    'x0y3',
-    'x0y4',
-  ]
   return (
     <div className='table container'>
-      {units.map((item) => {
+      {tableUnits.map((unit) => {
         const classes =
-          item === target ? `unit-item ${robotClass}` : 'unit-item'
-        return <SingleUnit unitId={item} classes={classes} />
+          unit === target ? `unit-item ${robotClass}` : 'unit-item'
+        return <SingleUnit unitId={unit} classes={classes} />
       })}
     </div>
   )
