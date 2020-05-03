@@ -6,12 +6,13 @@ import SimReducer from './simReducer'
 const SimState = (props) => {
   const initialState = {
     position: {
-      x: 0,
-      y: 0,
+      x: null,
+      y: null,
     },
     commands: ['PLACE', 'MOVE', 'LEFT', 'RIGHT', 'REPORT'],
     directions: ['NORTH', 'SOUTH', 'EAST', 'WEST'],
     facing: '',
+    robotClass: 'robot1',
     loading: false,
   }
   const [state, dispatch] = useReducer(SimReducer, initialState)
@@ -63,8 +64,12 @@ const SimState = (props) => {
           if (state.directions.includes(info[2])) {
             const facing = info[2]
             if (checkPositionValues(position)) {
+              const robotClass = `robot${Math.round(Math.random() * 2) + 1}`
               // update state with position and facing info if all valid
-              dispatch({ type: MOVE_ROBOT, payload: { position, facing } })
+              dispatch({
+                type: MOVE_ROBOT,
+                payload: { position, facing, robotClass },
+              })
               return cmd[0]
             }
           } else {
@@ -136,7 +141,11 @@ const SimState = (props) => {
     if (checkPositionValues(position)) {
       dispatch({
         type: MOVE_ROBOT,
-        payload: { position, facing: state.facing },
+        payload: {
+          position,
+          facing: state.facing,
+          robotClass: state.robotClass,
+        },
       })
       return true
     }
@@ -183,7 +192,11 @@ const SimState = (props) => {
     }
     dispatch({
       type: MOVE_ROBOT,
-      payload: { position: state.position, facing: facing },
+      payload: {
+        position: state.position,
+        facing: facing,
+        robotClass: state.robotClass,
+      },
     })
   }
 
@@ -196,6 +209,7 @@ const SimState = (props) => {
     <SimContext.Provider
       value={{
         position: state.position,
+        robotClass: state.robotClass,
         loading: state.loading,
         handleCommand,
         processCommand,
