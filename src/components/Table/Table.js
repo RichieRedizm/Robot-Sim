@@ -11,7 +11,7 @@ const Table = () => {
 
   useEffect(() => {
     let units = []
-    for (let x = 0; x < 5; x++) {
+    for (let x = 4; x >= 0; --x) {
       for (let y = 0; y < 5; y++) {
         units.push(`x${x}y${y}`)
       }
