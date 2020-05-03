@@ -11,7 +11,7 @@ const Form = () => {
 
   // handles key down events.
   const handleOnKeyDown = (e) => {
-    if (e.keyCode == 13) {
+    if (e.keyCode === 13) {
       // If key pressed is 'enter' call handleCommand function
       e.preventDefault()
       handleCommand(e.target.value)

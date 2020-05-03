@@ -10,7 +10,7 @@ const SimState = (props) => {
       y: 0,
     },
     commands: ['PLACE', 'MOVE', 'LEFT', 'RIGHT', 'REPORT'],
-    directions: ['north', 'south', 'east', 'west'],
+    directions: ['NORTH', 'SOUTH', 'EAST', 'WEST'],
     facing: '',
     loading: false,
   }
@@ -44,27 +44,31 @@ const SimState = (props) => {
   const filterCommand = (command) => {
     const cmd = command.split(' ')
     if (cmd[0] === 'PLACE') {
-      // check for additional placement coordinates and facing information
+      // check for additional placement coordinates and facing info
       if (cmd.length > 1) {
         const info = cmd[1].split(',')
         if (info.length !== 3) {
-          // handle error alert - we require 3 items of placement information
+          // handle error alert - we require 3 items of placement info
           console.log(
             'we require 3 pieces of info for using PLACE command: X,Y,F',
             cmd
           )
           return false
         } else {
-          // update state with position and facing info
+          // set the post=ition xy values
           const position = { x: parseInt(info[0]), y: parseInt(info[1]) }
+          // check for facing position value
           if (state.directions.includes(info[2])) {
             const facing = info[2]
-            dispatch({ type: MOVE_ROBOT, payload: { position, facing } })
-            return cmd[0]
+            if (checkPositionValues(position)) {
+              // update state with position and facing info if all valid
+              dispatch({ type: MOVE_ROBOT, payload: { position, facing } })
+              return cmd[0]
+            }
           } else {
             // handle error alert
             console.log(
-              `${info[2]} is not a valid direction - please enter north, south, east or west`,
+              `${info[2]} is not a valid direction - please enter NORTH, SOUTH, EAST or WEST`,
               cmd
             )
             return false
@@ -82,12 +86,9 @@ const SimState = (props) => {
     }
   }
 
-  //  process valid commands
+  //  process validated commands
   const processCommand = (command) => {
     switch (command) {
-      case 'PLACE':
-        // this is handled by filterCommand()
-        break
       case 'MOVE':
         // check the facing direction to calc position
         handleMove()
@@ -109,28 +110,71 @@ const SimState = (props) => {
     let px = state.position.x
     let py = state.position.y
     switch (state.facing) {
-      case 'north':
+      case 'NORTH':
         px++
         break
-      case 'south':
+      case 'SOUTH':
         --px
         break
-      case 'east':
+      case 'EAST':
         py++
         break
-      case 'west':
+      case 'WEST':
         --py
         break
       default:
         return false
     }
     const position = { x: px, y: py }
-    console.log('MOVE position', position)
-    dispatch({ type: MOVE_ROBOT, payload: { position, facing: state.facing } })
+    if (checkPositionValues(position)) {
+      dispatch({
+        type: MOVE_ROBOT,
+        payload: { position, facing: state.facing },
+      })
+      return true
+    }
+  }
+
+  //  check the position values against range limit
+  const checkPositionValues = (position) => {
+    if (
+      position.x >= 0 &&
+      position.x <= 4 &&
+      position.y >= 0 &&
+      position.y <= 4
+    ) {
+      return true
+    } else {
+      console.log(
+        'you have reached the edge of the table, please change direction or PLACE robot again'
+      )
+    }
   }
 
   //  process valid commands
-  const handleFacing = (command) => {}
+  const handleFacing = (command) => {
+    let facing = ''
+    switch (state.facing) {
+      case 'NORTH':
+        facing = command === 'LEFT' ? 'WEST' : 'EAST'
+        break
+      case 'SOUTH':
+        facing = command === 'LEFT' ? 'EAST' : 'WEST'
+        break
+      case 'EAST':
+        facing = command === 'LEFT' ? 'NORTH' : 'SOUTH'
+        break
+      case 'WEST':
+        facing = command === 'LEFT' ? 'SOUTH' : 'NORTH'
+        break
+      default:
+        facing = state.facing
+    }
+    dispatch({
+      type: MOVE_ROBOT,
+      payload: { position: state.position, facing: facing },
+    })
+  }
 
   // set loading
   const setLoading = () => dispatch({ type: SET_LOADING })
