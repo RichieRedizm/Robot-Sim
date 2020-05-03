@@ -23,8 +23,12 @@ const Form = () => {
       <header>
         <h2>Type your command and press enter</h2>
       </header>
-      <form className='form' onKeyDown={(e) => handleOnKeyDown(e)}>
+      <form
+        data-testid='commandForm'
+        className='form'
+        onKeyDown={(e) => handleOnKeyDown(e)}>
         <input
+          data-testid='commandInput'
           type='textarea'
           value={command}
           placeholder='Enter Command Here....'

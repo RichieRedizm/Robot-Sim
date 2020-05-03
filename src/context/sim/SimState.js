@@ -24,7 +24,6 @@ const SimState = (props) => {
     // set state loading
     setLoading()
     const cmd = filterCommand(command)
-
     if (isCommandValid(cmd)) {
       processCommand(cmd)
     } else {
@@ -33,7 +32,10 @@ const SimState = (props) => {
     }
   }
 
-  // command validation
+  /** command validation check
+   * @param {String} command - String from textarea input
+   * @return {Boolean} true or false - if exists in commands state
+   */
   const isCommandValid = (command) => state.commands.includes(command)
 
   /** filter commands
@@ -86,7 +88,9 @@ const SimState = (props) => {
     }
   }
 
-  //  process validated commands
+  /** process validated commands
+   * @param {String} command - Validated command
+   */
   const processCommand = (command) => {
     switch (command) {
       case 'MOVE':
@@ -105,7 +109,10 @@ const SimState = (props) => {
     }
   }
 
-  //  process valid commands
+  /** MOVE command
+   * check facing direction to update position
+   * no param required
+   */
   const handleMove = () => {
     let px = state.position.x
     let py = state.position.y
@@ -135,7 +142,9 @@ const SimState = (props) => {
     }
   }
 
-  //  check the position values against range limit
+  /** Validate Position Values
+   * @param {Object} position - contains x y coordinates
+   */
   const checkPositionValues = (position) => {
     if (
       position.x >= 0 &&
@@ -151,7 +160,9 @@ const SimState = (props) => {
     }
   }
 
-  //  process valid commands
+  /** Handle facing direction update
+   * @param {String} command - Validated command LEFT or RIGHT
+   */
   const handleFacing = (command) => {
     let facing = ''
     switch (state.facing) {
@@ -176,7 +187,9 @@ const SimState = (props) => {
     })
   }
 
-  // set loading
+  /**
+   * set loading state
+   */
   const setLoading = () => dispatch({ type: SET_LOADING })
 
   return (

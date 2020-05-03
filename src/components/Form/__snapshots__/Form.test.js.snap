@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form component and command functionality tests Loads form component and input field plus match snapshot 1`] = `
+<DocumentFragment>
+  <header>
+    <h2>
+      Type your command and press enter
+    </h2>
+  </header>
+  <form
+    class="form"
+    data-testid="commandForm"
+  >
+    <input
+      data-testid="commandInput"
+      placeholder="Enter Command Here...."
+      type="textarea"
+      value=""
+    />
+  </form>
+</DocumentFragment>
+`;
