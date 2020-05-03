@@ -1,22 +1,25 @@
 import React, { useReducer } from 'react'
-import { SET_LOADING } from '../types'
+import { MOVE_ROBOT, SET_LOADING } from '../types'
 import SimContext from './simContext'
 import SimReducer from './simReducer'
 
 const SimState = (props) => {
-  // position x,y coordinates
-  // facing north, south, east, west
   const initialState = {
     position: {
       x: 0,
       y: 0,
     },
     commands: ['PLACE', 'MOVE', 'LEFT', 'RIGHT', 'REPORT'],
+    directions: ['NORTH', 'SOUTH', 'EAST', 'WEST'],
     facing: '',
     loading: false,
   }
   const [state, dispatch] = useReducer(SimReducer, initialState)
+  console.log('SimState state', state)
 
+  /** initial handler for command validation
+   * @param {String} command - String from textarea input
+   */
   const handleCommand = (command) => {
     // set state loading
     setLoading()
@@ -24,7 +27,6 @@ const SimState = (props) => {
 
     if (isCommandValid(cmd)) {
       processCommand(cmd)
-      //   console.log('command is valid: ', cmd)
     } else {
       // handle error alert
       console.log('command not valid: ', cmd)
@@ -34,39 +36,144 @@ const SimState = (props) => {
   // command validation
   const isCommandValid = (command) => state.commands.includes(command)
 
-  // filter comnands
+  /** filter commands
+   * @param {String} command - String from textarea input
+   * @return {String} Filtered single string command
+   * TODO fix tripple nesting if statement (time permitting)
+   */
   const filterCommand = (command) => {
     const cmd = command.split(' ')
     if (cmd[0] === 'PLACE') {
-      // check for additional placement coordinates and facing information
+      // check for additional placement coordinates and facing info
       if (cmd.length > 1) {
-        // console.log('PLACE yes - cmd: ', cmd)
-        const placement = cmd[1].split(',')
-        console.log('placement: ', placement)
-        return cmd[0]
+        const info = cmd[1].split(',')
+        if (info.length !== 3) {
+          // handle error alert - we require 3 items of placement info
+          console.log(
+            'we require 3 pieces of info for using PLACE command: X,Y,F',
+            cmd
+          )
+          return false
+        } else {
+          // set the post=ition xy values
+          const position = { x: parseInt(info[0]), y: parseInt(info[1]) }
+          // check for facing position value
+          if (state.directions.includes(info[2])) {
+            const facing = info[2]
+            if (checkPositionValues(position)) {
+              // update state with position and facing info if all valid
+              dispatch({ type: MOVE_ROBOT, payload: { position, facing } })
+              return cmd[0]
+            }
+          } else {
+            // handle error alert
+            console.log(
+              `${info[2]} is not a valid direction - please enter NORTH, SOUTH, EAST or WEST`,
+              cmd
+            )
+            return false
+          }
+        }
       } else {
-        // handle error alert
-        console.log('no additional information for PLACE command: ', cmd)
+        console.log(
+          'we require 3 pieces of info for using PLACE command: X,Y,F',
+          cmd
+        )
+        return false
       }
     } else {
       return command
     }
   }
 
-  //  process valid commands
+  //  process validated commands
   const processCommand = (command) => {
     switch (command) {
-      case 'PLACE':
-        break
       case 'MOVE':
+        // check the facing direction to calc position
+        handleMove()
         break
       case 'LEFT':
-        break
       case 'RIGHT':
+        // update the facing direction
+        handleFacing(command)
         break
       case 'REPORT':
         break
+      default:
+        return false
     }
+  }
+
+  //  process valid commands
+  const handleMove = () => {
+    let px = state.position.x
+    let py = state.position.y
+    switch (state.facing) {
+      case 'NORTH':
+        px++
+        break
+      case 'SOUTH':
+        --px
+        break
+      case 'EAST':
+        py++
+        break
+      case 'WEST':
+        --py
+        break
+      default:
+        return false
+    }
+    const position = { x: px, y: py }
+    if (checkPositionValues(position)) {
+      dispatch({
+        type: MOVE_ROBOT,
+        payload: { position, facing: state.facing },
+      })
+      return true
+    }
+  }
+
+  //  check the position values against range limit
+  const checkPositionValues = (position) => {
+    if (
+      position.x >= 0 &&
+      position.x <= 4 &&
+      position.y >= 0 &&
+      position.y <= 4
+    ) {
+      return true
+    } else {
+      console.log(
+        'you have reached the edge of the table, please change direction or PLACE robot again'
+      )
+    }
+  }
+
+  //  process valid commands
+  const handleFacing = (command) => {
+    let facing = ''
+    switch (state.facing) {
+      case 'NORTH':
+        facing = command === 'LEFT' ? 'WEST' : 'EAST'
+        break
+      case 'SOUTH':
+        facing = command === 'LEFT' ? 'EAST' : 'WEST'
+        break
+      case 'EAST':
+        facing = command === 'LEFT' ? 'NORTH' : 'SOUTH'
+        break
+      case 'WEST':
+        facing = command === 'LEFT' ? 'SOUTH' : 'NORTH'
+        break
+      default:
+        facing = state.facing
+    }
+    dispatch({
+      type: MOVE_ROBOT,
+      payload: { position: state.position, facing: facing },
+    })
   }
 
   // set loading
@@ -75,6 +182,7 @@ const SimState = (props) => {
   return (
     <SimContext.Provider
       value={{
+        position: state.position,
         loading: state.loading,
         handleCommand,
         processCommand,

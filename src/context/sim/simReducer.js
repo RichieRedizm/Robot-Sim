@@ -11,7 +11,8 @@ export default (state, action) => {
     case MOVE_ROBOT:
       return {
         ...state,
-        position: action.payload,
+        position: action.payload.position,
+        facing: action.payload.facing,
         loading: false,
       }
     case SET_LOADING:

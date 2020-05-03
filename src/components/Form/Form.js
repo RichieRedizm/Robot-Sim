@@ -11,24 +11,17 @@ const Form = () => {
 
   // handles key down events.
   const handleOnKeyDown = (e) => {
-    if (e.keyCode == 13) {
+    if (e.keyCode === 13) {
       // If key pressed is 'enter' call handleCommand function
       e.preventDefault()
       handleCommand(e.target.value)
     }
   }
 
-  // handles leaving the input field and calls handleCommand function
-  const handleOnBlur = (e) => {
-    handleCommand(e.target.value)
-  }
-
   return (
     <Fragment>
       <header>
-        <title>
-          <h2>Enter your command</h2>
-        </title>
+        <h2>Type your command and press enter</h2>
       </header>
       <form className='form' onKeyDown={(e) => handleOnKeyDown(e)}>
         <input
@@ -36,7 +29,6 @@ const Form = () => {
           value={command}
           placeholder='Enter Command Here....'
           onChange={(e) => handleOnChange(e)}
-          onBlur={(e) => handleOnBlur(e)}
         />
       </form>
     </Fragment>
