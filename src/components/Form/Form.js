@@ -1,5 +1,6 @@
 import React, { Fragment, useContext, useState } from 'react'
 import SimContext from '../../context/sim/simContext'
+import './Form.css'
 
 const Form = () => {
   const simContext = useContext(SimContext)

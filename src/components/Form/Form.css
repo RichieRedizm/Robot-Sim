@@ -1,0 +1,6 @@
+/* form input styling  */
+input[type='textarea'] {
+  padding: 2px;
+  font-size: 1em;
+  width: 20vw;
+}

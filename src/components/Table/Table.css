@@ -1,0 +1,28 @@
+/* table layout and styling */
+
+.table.container {
+  width: 60vw;
+  height: 60vh;
+  margin: 2% auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.table .unit-item {
+  background-color: #ccc;
+  width: 18%;
+  height: 20%;
+  margin: 1%;
+}
+
+.robot1 {
+  background-color: green !important;
+}
+
+.robot2 {
+  background-color: blue !important;
+}
+
+.robot3 {
+  background-color: red !important;
+}

@@ -12,6 +12,7 @@ export default (state, action) => {
       return {
         ...state,
         position: action.payload.position,
+        robotClass: action.payload.robotClass,
         facing: action.payload.facing,
         loading: false,
       }
