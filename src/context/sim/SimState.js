@@ -41,46 +41,18 @@ const SimState = (props) => {
 
   /** filter commands
    * @param {String} command - String from textarea input
-   * @return {String} Filtered single string command
-   * TODO fix tripple nesting if statement (time permitting)
+   * @return {String} Filter commands - check for additional information
    */
   const filterCommand = (command) => {
     const cmd = command.split(' ')
-    if (cmd[0] === 'PLACE') {
-      // check for additional placement coordinates and facing info
+    // if not PLACE command return command (could be moved to parent function)
+    if (cmd[0] !== 'PLACE') {
+      return command
+    } else {
+      // check for additional PLACE coordinates and facing info
       if (cmd.length > 1) {
-        const info = cmd[1].split(',')
-        if (info.length !== 3) {
-          // handle error alert - we require 3 items of placement info
-          console.log(
-            'we require 3 pieces of info for using PLACE command: X,Y,F',
-            cmd
-          )
-          return false
-        } else {
-          // set the post=ition xy values
-          const position = { x: parseInt(info[0]), y: parseInt(info[1]) }
-          // check for facing position value
-          if (state.directions.includes(info[2])) {
-            const facing = info[2]
-            if (checkPositionValues(position)) {
-              const robotClass = `robot${Math.round(Math.random() * 2) + 1}`
-              // update state with position and facing info if all valid
-              dispatch({
-                type: MOVE_ROBOT,
-                payload: { position, facing, robotClass },
-              })
-              return cmd[0]
-            }
-          } else {
-            // handle error alert
-            console.log(
-              `${info[2]} is not a valid direction - please enter NORTH, SOUTH, EAST or WEST`,
-              cmd
-            )
-            return false
-          }
-        }
+        processAdditionalInfo(cmd[1])
+        return cmd[0]
       } else {
         console.log(
           'we require 3 pieces of info for using PLACE command: X,Y,F',
@@ -88,11 +60,48 @@ const SimState = (props) => {
         )
         return false
       }
-    } else {
-      return command
     }
   }
 
+  /** process validated commands
+   * @param {String} command - Validated command
+   */
+  const processAdditionalInfo = (additionalInfo) => {
+    const info = additionalInfo.split(',')
+    if (info.length !== 3) {
+      // handle error alert - we require 3 items of placement info
+      console.log(
+        'we require 3 pieces of info for using PLACE command: X,Y,F',
+        info
+      )
+      return false
+    } else {
+      // set the post=ition xy values
+      const position = {
+        x: parseInt(info[0]),
+        y: parseInt(info[1]),
+      }
+      // check for facing position value
+      if (state.directions.includes(info[2])) {
+        const facing = info[2]
+        if (checkPositionValues(position)) {
+          const robotClass = `robot${Math.round(Math.random() * 4) + 1}`
+          // update state with position and facing info if all valid
+          dispatch({
+            type: MOVE_ROBOT,
+            payload: { position, facing, robotClass },
+          })
+        }
+      } else {
+        // handle error alert
+        console.log(
+          `${info[2]} is not a valid direction - please enter NORTH, SOUTH, EAST or WEST`,
+          info
+        )
+        return false
+      }
+    }
+  }
   /** process validated commands
    * @param {String} command - Validated command
    */
@@ -209,6 +218,7 @@ const SimState = (props) => {
     <SimContext.Provider
       value={{
         position: state.position,
+        facing: state.facing,
         robotClass: state.robotClass,
         loading: state.loading,
         handleCommand,
