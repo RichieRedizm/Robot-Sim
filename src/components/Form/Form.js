@@ -23,6 +23,7 @@ const Form = () => {
     <Fragment>
       <header>
         <h2>Type your command and press enter</h2>
+        <p>(You must PLACE the robot first)</p>
       </header>
       <form
         data-testid='commandForm'
