@@ -1,10 +1,11 @@
+import { Alert } from '@material-ui/lab'
 import React, { Fragment, useContext, useState } from 'react'
 import SimContext from '../../context/sim/simContext'
 import './Form.css'
 
 const Form = () => {
   const simContext = useContext(SimContext)
-  const { handleCommand } = simContext
+  const { handleCommand, alertInfo } = simContext
   const [command, setCommand] = useState('')
 
   // handles key characters entered to input and sets as state
@@ -21,9 +22,16 @@ const Form = () => {
 
   return (
     <Fragment>
+      {alertInfo && (
+        <Alert severity={alertInfo.type}>
+          <span>
+            <strong>{alertInfo.title}</strong> {alertInfo.msg}
+          </span>
+        </Alert>
+      )}
       <header>
-        <h2>Type your command and press enter</h2>
-        <p>(You must PLACE the robot first)</p>
+        <h3>Type your command and press enter</h3>
+        <p>You must PLACE the robot first.</p>
       </header>
       <form
         data-testid='commandForm'

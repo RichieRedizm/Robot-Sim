@@ -1,9 +1,20 @@
+/* a couple of overrides on h and p tags */
+h3 {
+  line-height: 0em;
+}
+
+p {
+  font-size: 0.7em;
+}
+
+/* alert msg positioning */
+.MuiAlert-standardError {
+  margin-top: -48px;
+}
+
 /* form input styling  */
 input[type='textarea'] {
   padding: 2px 8px;
-  font-size: 1em;
-  width: 20vw;
-}
-p {
   font-size: 0.7em;
+  width: 20vw;
 }
