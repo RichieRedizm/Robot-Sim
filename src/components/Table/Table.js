@@ -7,7 +7,7 @@ const Table = () => {
   const [tableUnits, setTableUnits] = useState([])
   const [target, setTarget] = useState('')
   const simContext = useContext(SimContext)
-  const { position, robotClass } = simContext
+  const { position, robotClass, facing } = simContext
 
   useEffect(() => {
     let units = []
@@ -29,8 +29,8 @@ const Table = () => {
     <div className='table container'>
       {tableUnits.map((unit) => {
         const classes =
-          unit === target ? `unit-item ${robotClass}` : 'unit-item'
-        return <SingleUnit unitId={unit} classes={classes} />
+          unit === target ? `unit-item ${robotClass} ${facing}` : 'unit-item'
+        return <SingleUnit key={unit} unitId={unit} classes={classes} />
       })}
     </div>
   )
