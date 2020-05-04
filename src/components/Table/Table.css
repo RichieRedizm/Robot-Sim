@@ -9,7 +9,9 @@
 }
 
 .table .unit-item {
+  position: relative;
   background-color: #ccc;
+  line-height: 3.7em;
   width: 18%;
   height: 20%;
   margin: 1%;
@@ -25,4 +27,44 @@
 
 .robot3 {
   background-color: red !important;
+}
+
+.robot4 {
+  background-color: orange !important;
+}
+
+.robot5 {
+  background-color: purple !important;
+}
+
+.svg-inline--fa {
+  position: absolute;
+  display: none;
+}
+.svg-inline--fa.fa-chevron-left {
+  left: 2%;
+  top: 33%;
+}
+.svg-inline--fa.fa-chevron-up {
+  left: 43%;
+  top: 0;
+}
+.svg-inline--fa.fa-chevron-right {
+  right: 2%;
+  top: 33%;
+}
+.svg-inline--fa.fa-chevron-down {
+  left: 43%;
+  bottom: 0;
+}
+.svg-inline--fa.fa-robot {
+  left: 40%;
+  top: 33%;
+}
+.NORTH .svg-inline--fa.fa-chevron-up,
+.SOUTH .svg-inline--fa.fa-chevron-down,
+.EAST .svg-inline--fa.fa-chevron-right,
+.WEST .svg-inline--fa.fa-chevron-left,
+.robot .svg-inline--fa.fa-robot {
+  display: block;
 }

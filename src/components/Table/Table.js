@@ -29,7 +29,9 @@ const Table = () => {
     <div className='table container'>
       {tableUnits.map((unit) => {
         const classes =
-          unit === target ? `unit-item ${robotClass} ${facing}` : 'unit-item'
+          unit === target
+            ? `unit-item robot ${robotClass} ${facing}`
+            : 'unit-item'
         return <SingleUnit key={unit} unitId={unit} classes={classes} />
       })}
     </div>
