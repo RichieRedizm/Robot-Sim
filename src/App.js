@@ -8,10 +8,10 @@ function App() {
   return (
     <SimState>
       <div className='App'>
-        <header className='App-header'>
+        <div className='App-wrapper'>
           <Form />
           <Table />
-        </header>
+        </div>
       </div>
     </SimState>
   )

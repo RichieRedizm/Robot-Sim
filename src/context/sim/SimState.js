@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react'
-import { MOVE_ROBOT } from '../types'
+import { MOVE_ROBOT, SET_ALERT } from '../types'
 import SimContext from './simContext'
 import SimReducer from './simReducer'
 
@@ -12,6 +12,7 @@ const SimState = (props) => {
     commands: ['PLACE', 'MOVE', 'LEFT', 'RIGHT', 'REPORT'],
     directions: ['NORTH', 'SOUTH', 'EAST', 'WEST'],
     facing: '',
+    alertInfo: null,
     robotClass: 'robot1',
   }
   const [state, dispatch] = useReducer(SimReducer, initialState)
@@ -21,18 +22,19 @@ const SimState = (props) => {
    */
   const handleCommand = (command) => {
     const cmd = filterCommand(command)
-    if (state.position.x && state.position.y) {
-      if (isCommandValid(cmd)) {
-        processCommand(cmd)
-      } else {
-        // handle error alert
-        console.log('command not valid: ', cmd)
-      }
+    if (isCommandValid(cmd)) {
+      processCommand(cmd)
     } else {
-      // handle error alert
-      console.log(
-        'The Robot has not been placed on the table: Try "PLACE 2,2,EAST"'
-      )
+      // send error alert information
+      dispatch({
+        type: SET_ALERT,
+        payload: {
+          title: 'Sorry!',
+          type: 'error',
+          msg:
+            'The command entered is not valid. All commands are uppercase - PLACE, MOVE, LEFT, RIGHT, REPORT',
+        },
+      })
     }
   }
 
@@ -48,22 +50,23 @@ const SimState = (props) => {
    */
   const filterCommand = (command) => {
     const cmd = command.split(' ')
-    // if not PLACE command return command (could be moved to parent function)
-    if (cmd[0] !== 'PLACE') {
-      return command
+    // check for additional PLACE coordinates and facing info
+    if (cmd.length > 1) {
+      processAdditionalInfo(cmd[1])
+      return cmd[0]
     } else {
-      // check for additional PLACE coordinates and facing info
-      if (cmd.length > 1) {
-        processAdditionalInfo(cmd[1])
-        return cmd[0]
-      } else {
-        console.log(
-          'we require 3 pieces of info for using PLACE command: X,Y,F',
-          cmd
-        )
-        return false
-      }
+      // send error alert information - we require 3 items of placement info
+      dispatch({
+        type: SET_ALERT,
+        payload: {
+          title: 'Sorry!',
+          type: 'error',
+          msg:
+            'PLACE command requires 3 additional parts of information: "PLACE X,Y,F"',
+        },
+      })
     }
+    return command
   }
 
   /** process validated commands
@@ -73,11 +76,15 @@ const SimState = (props) => {
     const info = additionalInfo.split(',')
     if (info.length !== 3) {
       // handle error alert - we require 3 items of placement info
-      console.log(
-        'we require 3 pieces of info for using PLACE command: X,Y,F',
-        info
-      )
-      return false
+      dispatch({
+        type: SET_ALERT,
+        payload: {
+          title: 'Sorry!',
+          type: 'error',
+          msg:
+            'PLACE command requires all 3 additional parts of information: "PLACE X,Y,F"',
+        },
+      })
     } else {
       // set the post=ition xy values
       const position = {
@@ -96,12 +103,15 @@ const SimState = (props) => {
           })
         }
       } else {
-        // handle error alert
-        console.log(
-          `${info[2]} is not a valid direction - please enter NORTH, SOUTH, EAST or WEST`,
-          info
-        )
-        return false
+        // set error alert information - direction was onot valid
+        dispatch({
+          type: SET_ALERT,
+          payload: {
+            title: 'Sorry!',
+            type: 'error',
+            msg: `${info[2]} is not a valid direction - please enter NORTH, SOUTH, EAST or WEST`,
+          },
+        })
       }
     }
   }
@@ -175,9 +185,15 @@ const SimState = (props) => {
     ) {
       return true
     } else {
-      console.log(
-        'you have reached the edge of the table, please change direction or PLACE robot again'
-      )
+      dispatch({
+        type: SET_ALERT,
+        payload: {
+          title: 'Sorry!',
+          type: 'error',
+          msg:
+            'You have reached the edge of the table, please change direction or PLACE robot again',
+        },
+      })
     }
   }
 
@@ -217,6 +233,7 @@ const SimState = (props) => {
       value={{
         position: state.position,
         facing: state.facing,
+        alertInfo: state.alertInfo,
         robotClass: state.robotClass,
         handleCommand,
         processCommand,

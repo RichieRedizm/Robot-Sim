@@ -1,4 +1,4 @@
-import { MOVE_ROBOT } from '../types'
+import { MOVE_ROBOT, SET_ALERT } from '../types'
 
 export default (state, action) => {
   switch (action.type) {
@@ -6,8 +6,14 @@ export default (state, action) => {
       return {
         ...state,
         position: action.payload.position,
-        robotClass: action.payload.robotClass,
         facing: action.payload.facing,
+        alertInfo: null,
+        robotClass: action.payload.robotClass,
+      }
+    case SET_ALERT:
+      return {
+        ...state,
+        alertInfo: action.payload,
       }
     default:
       return state
