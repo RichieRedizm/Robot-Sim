@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react'
-import { MOVE_ROBOT, SET_LOADING } from '../types'
+import { MOVE_ROBOT } from '../types'
 import SimContext from './simContext'
 import SimReducer from './simReducer'
 
@@ -13,23 +13,26 @@ const SimState = (props) => {
     directions: ['NORTH', 'SOUTH', 'EAST', 'WEST'],
     facing: '',
     robotClass: 'robot1',
-    loading: false,
   }
   const [state, dispatch] = useReducer(SimReducer, initialState)
-  console.log('SimState state', state)
 
   /** initial handler for command validation
    * @param {String} command - String from textarea input
    */
   const handleCommand = (command) => {
-    // set state loading
-    setLoading()
     const cmd = filterCommand(command)
-    if (isCommandValid(cmd)) {
-      processCommand(cmd)
+    if (state.position.x && state.position.y) {
+      if (isCommandValid(cmd)) {
+        processCommand(cmd)
+      } else {
+        // handle error alert
+        console.log('command not valid: ', cmd)
+      }
     } else {
       // handle error alert
-      console.log('command not valid: ', cmd)
+      console.log(
+        'The Robot has not been placed on the table: Try "PLACE 2,2,EAST"'
+      )
     }
   }
 
@@ -209,18 +212,12 @@ const SimState = (props) => {
     })
   }
 
-  /**
-   * set loading state
-   */
-  const setLoading = () => dispatch({ type: SET_LOADING })
-
   return (
     <SimContext.Provider
       value={{
         position: state.position,
         facing: state.facing,
         robotClass: state.robotClass,
-        loading: state.loading,
         handleCommand,
         processCommand,
       }}>
