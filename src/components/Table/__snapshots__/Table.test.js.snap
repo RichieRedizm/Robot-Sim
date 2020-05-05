@@ -1,0 +1,212 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table component loads and functionality tests Loads table component plus match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="table container"
+    data-testid="tableContainer"
+  >
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x4y0"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x4y1"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x4y2"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x4y3"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x4y4"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x3y0"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x3y1"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x3y2"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x3y3"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x3y4"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x2y0"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x2y1"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x2y2"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x2y3"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x2y4"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x1y0"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x1y1"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x1y2"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x1y3"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x1y4"
+    />
+    <div
+      class="unit-item robot robot1 NORTH"
+      data-testid="unitItem"
+      data-unit-position="x0y0"
+    >
+      <svg
+        aria-hidden="true"
+        class="svg-inline--fa fa-chevron-left fa-w-10 "
+        data-icon="chevron-left"
+        data-prefix="fas"
+        focusable="false"
+        role="img"
+        viewBox="0 0 320 512"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z"
+          fill="currentColor"
+        />
+      </svg>
+      <svg
+        aria-hidden="true"
+        class="svg-inline--fa fa-chevron-up fa-w-14 "
+        data-icon="chevron-up"
+        data-prefix="fas"
+        focusable="false"
+        role="img"
+        viewBox="0 0 448 512"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M240.971 130.524l194.343 194.343c9.373 9.373 9.373 24.569 0 33.941l-22.667 22.667c-9.357 9.357-24.522 9.375-33.901.04L224 227.495 69.255 381.516c-9.379 9.335-24.544 9.317-33.901-.04l-22.667-22.667c-9.373-9.373-9.373-24.569 0-33.941L207.03 130.525c9.372-9.373 24.568-9.373 33.941-.001z"
+          fill="currentColor"
+        />
+      </svg>
+      <svg
+        aria-hidden="true"
+        class="svg-inline--fa fa-chevron-right fa-w-10 "
+        data-icon="chevron-right"
+        data-prefix="fas"
+        focusable="false"
+        role="img"
+        viewBox="0 0 320 512"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"
+          fill="currentColor"
+        />
+      </svg>
+      <svg
+        aria-hidden="true"
+        class="svg-inline--fa fa-chevron-down fa-w-14 "
+        data-icon="chevron-down"
+        data-prefix="fas"
+        focusable="false"
+        role="img"
+        viewBox="0 0 448 512"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+          fill="currentColor"
+        />
+      </svg>
+      <svg
+        aria-hidden="true"
+        class="svg-inline--fa fa-robot fa-w-20 "
+        data-icon="robot"
+        data-prefix="fas"
+        focusable="false"
+        role="img"
+        viewBox="0 0 640 512"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M32,224H64V416H32A31.96166,31.96166,0,0,1,0,384V256A31.96166,31.96166,0,0,1,32,224Zm512-48V448a64.06328,64.06328,0,0,1-64,64H160a64.06328,64.06328,0,0,1-64-64V176a79.974,79.974,0,0,1,80-80H288V32a32,32,0,0,1,64,0V96H464A79.974,79.974,0,0,1,544,176ZM264,256a40,40,0,1,0-40,40A39.997,39.997,0,0,0,264,256Zm-8,128H192v32h64Zm96,0H288v32h64ZM456,256a40,40,0,1,0-40,40A39.997,39.997,0,0,0,456,256Zm-8,128H384v32h64ZM640,256V384a31.96166,31.96166,0,0,1-32,32H576V224h32A31.96166,31.96166,0,0,1,640,256Z"
+          fill="currentColor"
+        />
+      </svg>
+    </div>
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x0y1"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x0y2"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x0y3"
+    />
+    <div
+      class="unit-item"
+      data-testid="unitItem"
+      data-unit-position="x0y4"
+    />
+  </div>
+</DocumentFragment>
+`;

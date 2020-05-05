@@ -3,9 +3,12 @@
 exports[`Form component and command functionality tests Loads form component and input field plus match snapshot 1`] = `
 <DocumentFragment>
   <header>
-    <h2>
+    <h3>
       Type your command and press enter
-    </h2>
+    </h3>
+    <p>
+      You must PLACE the robot first.
+    </p>
   </header>
   <form
     class="form"
