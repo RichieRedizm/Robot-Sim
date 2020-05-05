@@ -126,6 +126,11 @@ const SimState = (props) => {
         handleFacing(command)
         break
       case 'REPORT':
+        handleAlert(
+          'Report!',
+          'success',
+          `Your position is X:${state.position.x} Y:${state.position.y}. The direction you are facing is ${state.facing}`
+        )
         break
       default:
         return false
