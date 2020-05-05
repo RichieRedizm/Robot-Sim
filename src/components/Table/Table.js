@@ -26,13 +26,21 @@ const Table = () => {
   }, [position])
 
   return (
-    <div className='table container'>
+    <div data-testid='tableContainer' className='table container'>
       {tableUnits.map((unit) => {
         const classes =
           unit === target
             ? `unit-item robot ${robotClass} ${facing}`
             : 'unit-item'
-        return <SingleUnit key={unit} unitId={unit} classes={classes} />
+        const addRobot = unit === target ? true : false
+        return (
+          <SingleUnit
+            key={unit}
+            unitId={unit}
+            classes={classes}
+            addRobot={addRobot}
+          />
+        )
       })}
     </div>
   )

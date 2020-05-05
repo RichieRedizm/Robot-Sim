@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SingleUnit component loads and renders correctly depending on props check if addRobot false effects the render 1`] = `
+<DocumentFragment>
+  <div
+    class="unit-item"
+    data-testid="unitItem"
+    data-unit-position="x1y1"
+  />
+</DocumentFragment>
+`;

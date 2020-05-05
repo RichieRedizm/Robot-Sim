@@ -13,19 +13,10 @@ const state = {
   commands: ['PLACE', 'MOVE', 'LEFT', 'RIGHT', 'REPORT'],
   directions: ['NORTH', 'SOUTH', 'EAST', 'WEST'],
   facing: 'NORTH',
-  loading: false,
+  alertInfo: null,
   handleCommand: jest.fn(),
-  processCommand: jest.fn(),
 }
 
-const testCommands = [
-  'PLACE 2,2,NORTH',
-  'PLACE 2,2,SOUTH',
-  'MOVE',
-  'LEFT',
-  'RIGHT',
-  'REPORT',
-]
 const renderFormComponent = (state) =>
   render(
     <SimContext.Provider value={state}>
