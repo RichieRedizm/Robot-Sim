@@ -21,33 +21,19 @@ const SimState = (props) => {
    * @param {String} command - String from textarea input
    */
   const handleCommand = (command) => {
-    if (command === '') {
-      // send error alert information - we require 3 items of placement info
-      dispatch({
-        type: SET_ALERT,
-        payload: {
-          title: 'Sorry!',
-          type: 'error',
-          msg: ' please enter a command - "PLACE, MOVE, LEFT, RIGHT, REPORT"',
-        },
-      })
-      return false
-    }
+    //reset alert
+    handleAlert(null)
     const cmd = filterCommand(command)
+    console.log('SimState cmd', cmd)
     if (isCommandValid(cmd)) {
+      // process the command
       processCommand(cmd)
     } else {
-      // send error alert information
-      dispatch({
-        type: SET_ALERT,
-        payload: {
-          title: `Sorry! "${cmd}"`,
-          type: 'error',
-          msg:
-            ' is not valid. All commands are uppercase - "PLACE, MOVE, LEFT, RIGHT, REPORT"',
-        },
-      })
-      return false
+      handleAlert(
+        `Sorry! "${cmd}"`,
+        'error',
+        'is not valid. All commands are uppercase - PLACE, MOVE, LEFT, RIGHT, REPORT'
+      )
     }
   }
 
@@ -63,44 +49,41 @@ const SimState = (props) => {
    */
   const filterCommand = (command) => {
     const cmd = command.split(' ')
-    // check for additional PLACE coordinates and facing info
     if (cmd[0] === 'PLACE') {
-      if (cmd.length > 1) {
+      if (cmd[1]) {
         processAdditionalInfo(cmd[1])
-        return cmd[0]
       } else {
-        // send error alert information - we require 3 items of placement info
-        dispatch({
-          type: SET_ALERT,
-          payload: {
-            title: 'Sorry! PLACE',
-            type: 'error',
-            msg:
-              ' command requires 3 additional parts of information: "PLACE X,Y,F"',
-          },
-        })
+        // check is robot is placed
+        handleAlert(
+          'Sorry!',
+          'error',
+          'PLACE command requires 3 additional parts of information: "PLACE X,Y,F"'
+        )
       }
-    } else {
-      return command
+      return cmd[0]
+    } else if (state.facing === null && state.position.x === null) {
+      // check is robot is placed
+      handleAlert(
+        'Sorry!',
+        'error',
+        'You must PLACE the robot first: "PLACE X,Y,F"'
+      )
     }
+    return command
   }
 
-  /** process validated commands
+  /** check for additional PLACE coordinates and facing info
    * @param {String} command - Validated command
    */
   const processAdditionalInfo = (additionalInfo) => {
     const info = additionalInfo.split(',')
     if (info.length !== 3) {
       // handle error alert - we require 3 items of placement info
-      dispatch({
-        type: SET_ALERT,
-        payload: {
-          title: 'Sorry! "PLACE"',
-          type: 'error',
-          msg:
-            ' command requires all 3 additional parts of information: "PLACE X,Y,F"',
-        },
-      })
+      handleAlert(
+        'Sorry!',
+        'error',
+        'PLACE command requires all 3 additional parts of information comma seperated: "PLACE X,Y,F"'
+      )
     } else {
       // set the post=ition xy values
       const position = {
@@ -120,15 +103,11 @@ const SimState = (props) => {
         }
       } else {
         // set error alert information - direction was onot valid
-        dispatch({
-          type: SET_ALERT,
-          payload: {
-            title: `Sorry! "${info[2]}"`,
-            type: 'error',
-            msg:
-              ' is not a valid direction - please enter NORTH, SOUTH, EAST or WEST',
-          },
-        })
+        handleAlert(
+          `Sorry! "${info[2]}"`,
+          'error',
+          'is not a valid direction - please enter NORTH, SOUTH, EAST or WEST'
+        )
       }
     }
   }
@@ -202,15 +181,11 @@ const SimState = (props) => {
     ) {
       return true
     } else {
-      dispatch({
-        type: SET_ALERT,
-        payload: {
-          title: 'Sorry!',
-          type: 'error',
-          msg:
-            'This is the edge of the table, please change direction or PLACE robot again',
-        },
-      })
+      handleAlert(
+        'Sorry!',
+        'error',
+        'You have reached the edge of the table, please change direction or PLACE robot again'
+      )
     }
   }
 
@@ -243,6 +218,25 @@ const SimState = (props) => {
         robotClass: state.robotClass,
       },
     })
+  }
+
+  /** Handle Alert
+   * @param {String} title - alert title displays in bold
+   * @param {String} type - sets the icon and alert background color
+   * @param {String} msg - main message displayed inside the alert
+   */
+  const handleAlert = (title, type, msg) => {
+    if ((title, type, msg)) {
+      dispatch({
+        type: SET_ALERT,
+        payload: { title, type, msg },
+      })
+    } else {
+      dispatch({
+        type: SET_ALERT,
+        payload: null,
+      })
+    }
   }
 
   return (
