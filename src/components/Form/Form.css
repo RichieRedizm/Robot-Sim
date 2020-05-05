@@ -8,6 +8,7 @@ p {
 }
 
 /* alert msg positioning */
+.MuiAlert-standardSuccess,
 .MuiAlert-standardError {
   margin-top: -48px;
 }
