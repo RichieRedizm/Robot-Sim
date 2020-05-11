@@ -197,7 +197,7 @@ const SimState = (props) => {
       handleAlert(
         'Sorry!',
         'error',
-        'You have entered an incorrect x or y value, it must be between 0-4 for each'
+        'You have entered an incorrect x or y value, enter between 0-4 for each'
       )
     }
   }
