@@ -73,7 +73,7 @@ const SimState = (props) => {
   }
 
   /** check for additional PLACE coordinates and facing info
-   * @param {String} command - Validated command
+   * @param {String} additionalInfo - Validated command
    */
   const processAdditionalInfo = (additionalInfo) => {
     const info = additionalInfo.split(',')
@@ -85,7 +85,7 @@ const SimState = (props) => {
         'PLACE command requires all 3 additional parts of information comma seperated: "PLACE X,Y,F"'
       )
     } else {
-      // set the post=ition xy values
+      // set the position xy values
       const position = {
         x: parseInt(info[0]),
         y: parseInt(info[1]),
@@ -178,18 +178,26 @@ const SimState = (props) => {
    * @param {Object} position - contains x y coordinates
    */
   const checkPositionValues = (position) => {
-    if (
-      position.x >= 0 &&
-      position.x <= 4 &&
-      position.y >= 0 &&
-      position.y <= 4
-    ) {
-      return true
+    if (Number.isInteger(position.x) && Number.isInteger(position.y)) {
+      if (
+        position.x >= 0 &&
+        position.x <= 4 &&
+        position.y >= 0 &&
+        position.y <= 4
+      ) {
+        return true
+      } else {
+        handleAlert(
+          'Sorry!',
+          'error',
+          'You have reached the edge of the table, please change direction or PLACE robot again'
+        )
+      }
     } else {
       handleAlert(
         'Sorry!',
         'error',
-        'You have reached the edge of the table, please change direction or PLACE robot again'
+        'You have entered an incorrect x or y value, enter between 0-4 for each'
       )
     }
   }
